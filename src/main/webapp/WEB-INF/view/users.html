@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Users</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+        }
+
+        .row {
+            font-style: italic;
+        }
+
+        .even-row {
+            color: black;
+        }
+
+        .odd-row {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+<table border="1">
+    <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Department</th>
+        <th>E-mail</th>
+    </tr>
+
+    <tr th:each="user, state : ${usersList}"
+        class="row" th:classappend="${state.odd} ? 'odd-row' : 'even-row'">
+
+        <td th:utext="${state.count}">No</td>
+        <td th:utext="${user.getName()}">Name</td>
+        <td th:utext="${user.getSurname()}">Surname</td>
+        <td th:utext="${user.getDepartment()}">Department</td>
+        <td th:utext="${user.getEmail()}">Email</td>
+
+    </tr>
+
+</table>
+</body>
+</html>
