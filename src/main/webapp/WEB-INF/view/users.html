@@ -18,7 +18,7 @@
         }
 
         .odd-row {
-            color: blue;
+            color: #0000ff;
         }
     </style>
 </head>
@@ -32,6 +32,7 @@
         <th>Surname</th>
         <th>Department</th>
         <th>E-mail</th>
+        <th>Operations</th>
     </tr>
 
     <tr th:each="user, state : ${usersList}"
@@ -42,9 +43,16 @@
         <td th:utext="${user.getSurname()}">Surname</td>
         <td th:utext="${user.getDepartment()}">Department</td>
         <td th:utext="${user.getEmail()}">Email</td>
+        <td><form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
+                <input type="submit" value="del">
+            </form>
+        </td>
 
     </tr>
 
 </table>
+<br>
+<input type="button" value="ADD NEW USER"
+    onclick="window.location.href = 'addNewUser'">
 </body>
 </html>

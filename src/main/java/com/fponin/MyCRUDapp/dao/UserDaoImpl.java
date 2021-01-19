@@ -4,7 +4,8 @@ import com.fponin.MyCRUDapp.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
@@ -19,5 +20,29 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAllUsers() {
 
         return entityManager.createQuery("select u from User u").getResultList();
+    }
+
+    @Override
+    @Transactional
+    public User findUser(int id) {
+        return entityManager.find(User.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void saveUser(User user) {
+        entityManager.persist(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(int id) {
+        entityManager.createQuery("delete User where id = " + id).executeUpdate();
     }
 }
