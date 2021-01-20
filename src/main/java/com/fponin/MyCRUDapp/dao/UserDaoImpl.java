@@ -18,7 +18,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public List<User> getAllUsers() {
-
         return entityManager.createQuery("select u from User u").getResultList();
     }
 
@@ -36,13 +35,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-
+    public void updateUser(User updatedUser) {
+        entityManager.merge(updatedUser);
     }
 
     @Override
     @Transactional
     public void deleteUser(int id) {
-        entityManager.createQuery("delete User where id = " + id).executeUpdate();
+        entityManager.remove(findUser(id));
     }
 }

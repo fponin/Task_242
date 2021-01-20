@@ -26,6 +26,9 @@
 <body>
 
 <table border="1">
+
+    <h3>User list</h3>
+
     <tr>
         <th>No</th>
         <th>Name</th>
@@ -43,8 +46,12 @@
         <td th:utext="${user.getSurname()}">Surname</td>
         <td th:utext="${user.getDepartment()}">Department</td>
         <td th:utext="${user.getEmail()}">Email</td>
-        <td><form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
+        <td>
+            <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
                 <input type="submit" value="del">
+            </form>
+            <form th:method="PATCH" th:action="@{/updateUser/{id}(id=${user.getId()})}">
+                <input type="submit" value="edit">
             </form>
         </td>
 
@@ -53,6 +60,6 @@
 </table>
 <br>
 <input type="button" value="ADD NEW USER"
-    onclick="window.location.href = 'addNewUser'">
+       onclick="window.location.href = 'addNewUser'">
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.fponin.MyCRUDapp.web.controller;
 
-import com.fponin.MyCRUDapp.model.User;
 import com.fponin.MyCRUDapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
