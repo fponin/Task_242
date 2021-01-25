@@ -1,4 +1,4 @@
-package com.fponin.MyCRUDapp.web.controller;
+package com.fponin.MyCRUDapp.controller;
 
 import com.fponin.MyCRUDapp.service.UserService;
 import org.springframework.stereotype.Controller;

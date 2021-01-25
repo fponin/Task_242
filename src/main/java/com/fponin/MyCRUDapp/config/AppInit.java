@@ -1,6 +1,5 @@
-package com.fponin.MyCRUDapp.web.config;
+package com.fponin.MyCRUDapp.config;
 
-import com.fponin.MyCRUDapp.config.AppConfig;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
