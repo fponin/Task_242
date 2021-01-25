@@ -44,4 +44,17 @@ public class UserDaoImpl implements UserDao {
     public void deleteUser(int id) {
         entityManager.remove(findUser(id));
     }
+
+    @Override
+    public User getUserByName(String name) {
+        @SuppressWarnings("unchecked")
+        List<User> users = entityManager.createQuery("from User where username=?1")
+                .setParameter(1, name)
+                .getResultList();
+        if (users.size() > 0) {
+            return users.get(0);
+        } else {
+            return null;
+        }
+    }
 }
