@@ -27,11 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        // http.csrf().disable(); - попробуйте выяснить сами, что это даёт
+    // http.csrf().disable(); - попробуйте выяснить сами, что это даёт
         http.authorizeRequests()
-                .antMatchers("/").hasAnyRole("ROLE_ADMIN", "ROLE_USER") // доступность всем
-                .antMatchers("/users").access("hasAnyRole('ROLE_ADMIN')") // разрешаем входить на /user пользователям с ролью User
+                .antMatchers("/user_info").authenticated()
+                .antMatchers("/info").authenticated()
+                .anyRequest().access("hasAnyRole('ROLE_ADMIN')") // разрешаем входить на /user пользователям с ролью User
                 .and().formLogin()  // Spring сам подставит свою логин форму
                 .successHandler(successUserHandler); // подключаем наш SuccessHandler для перенеправления по ролям
     }

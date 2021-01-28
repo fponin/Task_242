@@ -1,5 +1,6 @@
 package com.fponin.MyCRUDapp.dao;
 
+import com.fponin.MyCRUDapp.model.Role;
 import com.fponin.MyCRUDapp.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public List<User> getAllUsers() {
-        return entityManager.createQuery("select u from User u").getResultList();
+        return entityManager.createQuery("from User", User.class).getResultList();
     }
 
     @Override
@@ -56,5 +57,25 @@ public class UserDaoImpl implements UserDao {
         } else {
             return null;
         }
+    }
+
+    @Override
+    @Transactional
+    public Role getRoleByName(String roleName) {
+        @SuppressWarnings("unchecked")
+        List<Role> resultList = entityManager.createQuery("from Role where roleName=?1")
+                .setParameter(1, roleName)
+                .getResultList();
+        if (resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<Role> getAllRole() {
+        return  entityManager.createQuery("from Role", Role.class).getResultList();
     }
 }

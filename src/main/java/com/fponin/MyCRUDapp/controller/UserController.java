@@ -1,12 +1,10 @@
 package com.fponin.MyCRUDapp.controller;
-
-import com.fponin.MyCRUDapp.model.User;
 import com.fponin.MyCRUDapp.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -17,11 +15,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
-    public String printUsers(Model model) {
-        List<User> usersList = userService.getAllUsers();
+    @GetMapping(value = "/info")
+    public String printUserInfo(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        model.addAttribute("usersList", usersList);
-        return "users";
+        model.addAttribute(userService.getUserByName(auth.getName()));
+        return "user_info";
     }
 }

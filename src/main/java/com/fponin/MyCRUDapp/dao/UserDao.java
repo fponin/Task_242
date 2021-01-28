@@ -1,5 +1,7 @@
 package com.fponin.MyCRUDapp.dao;
 
+
+import com.fponin.MyCRUDapp.model.Role;
 import com.fponin.MyCRUDapp.model.User;
 
 import java.util.List;
@@ -17,4 +19,8 @@ public interface UserDao {
     void deleteUser(int id);
 
     User getUserByName(String name);
+
+    Role getRoleByName(String roleName);
+
+    List<Role> getAllRole();
 }

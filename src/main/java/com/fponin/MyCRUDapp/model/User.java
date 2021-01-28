@@ -1,10 +1,13 @@
 package com.fponin.MyCRUDapp.model;
 
+
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,31 +25,27 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "surname")
-    private String surname;
-
-    @Column(name = "department")
-    private String department;
-
     @Column(name = "email")
     private String email;
 
 
-    @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles"
+            , joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(int id, String name, String password, String surname, String department, String email) {
+    public User(int id, String name, String password, String email, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.password = password;
-        this.surname = surname;
-        this.department = department;
         this.email = email;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -69,22 +68,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -99,6 +82,14 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRoletoUser(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        } else {
+            roles.add(role);
+        }
     }
 
     @Override

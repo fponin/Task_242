@@ -3,6 +3,7 @@ package com.fponin.MyCRUDapp.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,10 +13,15 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "role_name")
-    private String role_name;
+    @Column(name = "role")
+    private String roleName;
 
     @ManyToMany(mappedBy = "roles")
+//    @JoinTable(
+//            name = "users_roles"
+//            , joinColumns = @JoinColumn(name = "role_id")
+//            , inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
     private Set<User> users;
 
     public Set<User> getUsers() {
@@ -34,24 +40,32 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getRole_name() {
-        return role_name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(String role_name) {
+        this.roleName = role_name;
+    }
+
+    public void addUsertoRole(User user) {
+        if (users == null) {
+            users = new HashSet<>();
+        } else {
+            users.add(user);
+        }
     }
 
     public Role() {
     }
 
-    public Role(int id, String role_name) {
+    public Role(int id, String roleName) {
         this.id = id;
-        this.role_name = role_name;
+        this.roleName = roleName;
     }
 
     @Override
     public String getAuthority() {
-        return role_name;
+        return roleName;
     }
 }

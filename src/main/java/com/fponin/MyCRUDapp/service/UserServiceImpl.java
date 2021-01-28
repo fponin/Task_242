@@ -1,6 +1,7 @@
 package com.fponin.MyCRUDapp.service;
 
 import com.fponin.MyCRUDapp.dao.UserDao;
+import com.fponin.MyCRUDapp.model.Role;
 import com.fponin.MyCRUDapp.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,5 +51,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User getUserByName(String name) {
         return userDao.getUserByName(name);
+    }
+
+    @Override
+    public Role getRoleByName(String roleName) {
+        return userDao.getRoleByName(roleName);
+    }
+
+    @Override
+    public List<Role> getAllRole() {
+        return userDao.getAllRole();
     }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<form th:align="center" th:method="POST" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
+
+        <h3>User</h3>
+        <input type="hidden" th:field="*{id}"/>
+        <tr>
+            <td>UserName:</td>
+            <td><input th:field="*{name}" type="text"/></td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td><input th:field="*{email}" type="text"/></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input th:field="*{password}" type="password"/></td>
+        </tr>
+        <tr>
+            <td>Select Roles:</td>
+            <td>
+                <select multiple name="role" th:required="true" class="form-control">
+                    <option th:each="role : ${roles}"
+                            th:value="${role.getRoleName()}"
+                            th:utext="${role.getRoleName()}"
+                            th:selected="${#lists.contains(user.roles, role)}">
+
+                    </option>
+                </select>
+            </td>
+        </tr>
+    <br><br>
+    <input type="submit" value="Save">
+    <input type="button" onclick="history.back();" value="Back"/>
+    <input type="button" value="Logout" onclick="location.href = '/logout'"/>
+</form>
+</body>
+</html>
