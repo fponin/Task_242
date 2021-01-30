@@ -37,8 +37,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        userDao.updateUser(user);
+    public void updateUser(User updatedUser) {
+        if(updatedUser.getPassword().isEmpty()){
+            updatedUser.setPassword(findUser(updatedUser.getId()).getPassword());
+        }
+        userDao.updateUser(updatedUser);
     }
 
     @Override
