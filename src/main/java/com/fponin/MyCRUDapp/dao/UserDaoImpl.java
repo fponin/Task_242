@@ -37,6 +37,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void updateUser(User updatedUser) {
+        if(updatedUser.getPassword().isEmpty()){
+            updatedUser.setPassword(findUser(updatedUser.getId()).getPassword());
+        }
         entityManager.merge(updatedUser);
     }
 
