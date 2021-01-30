@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,8 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); // конфигурация для прохождения аутентификации
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder); // конфигурация для прохождения аутентификации
     }
 
     @Override
@@ -37,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder(8);
     }
 }
