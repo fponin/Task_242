@@ -45,6 +45,7 @@ public class AdminController {
         model.addAttribute("user", user);
         return "user";
     }
+
     @PatchMapping(value = "/user/{id}")
     public String getUsers(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.findUser(id));

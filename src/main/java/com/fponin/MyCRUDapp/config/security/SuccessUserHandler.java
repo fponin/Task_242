@@ -1,4 +1,4 @@
-package com.fponin.MyCRUDapp.security;
+package com.fponin.MyCRUDapp.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

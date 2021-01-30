@@ -1,4 +1,5 @@
 package com.fponin.MyCRUDapp.controller;
+
 import com.fponin.MyCRUDapp.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

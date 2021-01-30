@@ -3,6 +3,7 @@ package com.fponin.MyCRUDapp.service;
 import com.fponin.MyCRUDapp.dao.UserDao;
 import com.fponin.MyCRUDapp.model.Role;
 import com.fponin.MyCRUDapp.model.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,15 +35,17 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.saveUser(user);
     }
 
     @Override
     @Transactional
     public void updateUser(User updatedUser) {
-        if(updatedUser.getPassword().isEmpty()){
+        if (updatedUser.getPassword().isEmpty()) {
             updatedUser.setPassword(findUser(updatedUser.getId()).getPassword());
         }
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userDao.updateUser(updatedUser);
     }
 

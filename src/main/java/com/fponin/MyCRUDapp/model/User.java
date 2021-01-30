@@ -1,7 +1,6 @@
 package com.fponin.MyCRUDapp.model;
 
 
-import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
