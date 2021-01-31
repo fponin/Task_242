@@ -3,14 +3,21 @@ package com.fponin.MyCRUDapp.service;
 import com.fponin.MyCRUDapp.dao.UserDao;
 import com.fponin.MyCRUDapp.model.Role;
 import com.fponin.MyCRUDapp.model.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserDao userDao;
     private final PasswordEncoder passwordEncoder;
@@ -62,12 +69,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRoleByName(String roleName) {
-        return userDao.getRoleByName(roleName);
-    }
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = userDao.getUserByName(s);
 
-    @Override
-    public List<Role> getAllRole() {
-        return userDao.getAllRole();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

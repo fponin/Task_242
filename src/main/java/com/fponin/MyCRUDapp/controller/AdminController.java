@@ -2,6 +2,7 @@ package com.fponin.MyCRUDapp.controller;
 
 import com.fponin.MyCRUDapp.model.Role;
 import com.fponin.MyCRUDapp.model.User;
+import com.fponin.MyCRUDapp.service.RoleService;
 import com.fponin.MyCRUDapp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +17,11 @@ import java.util.Set;
 public class AdminController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
 
@@ -41,16 +44,16 @@ public class AdminController {
     @GetMapping(value = "/addNewUser")
     public String addNewUsers(Model model) {
         User user = new User();
-        user.addRoletoUser(userService.getRoleByName("ROLE_USER"));
-        model.addAttribute("roles", userService.getAllRole());
+        user.addRoletoUser(roleService.getRoleByName("ROLE_USER"));
+        model.addAttribute("roles", roleService.getAllRole());
         model.addAttribute("user", user);
         return "user";
     }
 
-    @PatchMapping(value = "/user/{id}")
+    @PostMapping(value = "/user/{id}")
     public String getUsers(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.findUser(id));
-        model.addAttribute("roles", userService.getAllRole());
+        model.addAttribute("roles", roleService.getAllRole());
         return "user";
     }
 
@@ -64,7 +67,7 @@ public class AdminController {
     private Set<Role> getAddRole(String[] role) {
         Set<Role> roleSet = new HashSet<>();
         for (String s : role) {
-            roleSet.add(userService.getRoleByName(s));
+            roleSet.add(roleService.getRoleByName(s));
         }
         return roleSet;
     }
