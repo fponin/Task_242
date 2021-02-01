@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (updatedUser.getPassword().isEmpty()) {
             updatedUser.setPassword(findUser(updatedUser.getId()).getPassword());
         }
-        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userDao.updateUser(updatedUser);
     }
 
